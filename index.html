@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 
@@ -24,6 +24,7 @@
     <nav class="nav__links">
       <a href="#spread">The Spread</a>
       <a href="#hibachi">Hibachi</a>
+      <a href="#prices">Prices</a>
       <a href="#gallery">Gallery</a>
       <a href="#visit">Hours &amp; Visit</a>
       <a class="btn btn--small" href="tel:+17652888788">Call 765-288-8788</a>
@@ -134,6 +135,110 @@
       </div>
     </section>
 
+    <!-- PRICES + CALCULATOR -->
+    <section class="section prices" id="prices">
+      <div class="section__head">
+        <p class="eyebrow">Prices</p>
+        <h2>All you can eat. One simple price.</h2>
+      </div>
+
+      <div class="prices__grid">
+        <div class="price-board">
+          <div class="price-row price-row--big">
+            <div><h3>Lunch</h3><p class="muted">Adults</p></div>
+            <strong>$12.99</strong>
+          </div>
+          <div class="price-row price-row--big">
+            <div><h3>Dinner</h3><p class="muted">Adults</p></div>
+            <strong>$16.99</strong>
+          </div>
+
+          <h4 class="price-board__label">Kids</h4>
+          <table class="kids-table">
+            <thead><tr><th>Age</th><th>Lunch</th><th>Dinner</th></tr></thead>
+            <tbody>
+              <tr><th>3&ndash;6 years</th><td>$5.99</td><td>$7.99</td></tr>
+              <tr><th>7&ndash;9 years</th><td>$7.99</td><td>$9.99</td></tr>
+            </tbody>
+          </table>
+
+          <div class="price-row">
+            <div><h3>Drinks</h3></div>
+            <strong>$2.80</strong>
+          </div>
+          <div class="price-row">
+            <div><h3>To-go</h3><p class="muted">Ask at the counter</p></div>
+            <strong class="price-row__ask">Available</strong>
+          </div>
+        </div>
+
+        <form class="calc" id="calc" aria-labelledby="calc-title" onsubmit="return false">
+          <div class="calc__head">
+            <h3 id="calc-title">Meal calculator</h3>
+            <p class="muted">Plan your party's total before you come.</p>
+          </div>
+
+          <div class="seg" role="radiogroup" aria-label="Meal">
+            <label><input type="radio" name="meal" value="lunch" checked><span>Lunch</span></label>
+            <label><input type="radio" name="meal" value="dinner"><span>Dinner</span></label>
+          </div>
+
+          <div class="calc__rows">
+            <div class="stepper" data-key="adult">
+              <div><b>Adults</b><small data-price="adult"></small></div>
+              <div class="stepper__ctrl">
+                <button type="button" data-step="-1" aria-label="Fewer adults">&minus;</button>
+                <output aria-live="polite">2</output>
+                <button type="button" data-step="1" aria-label="More adults">+</button>
+              </div>
+            </div>
+            <div class="stepper" data-key="kid36">
+              <div><b>Kids 3&ndash;6</b><small data-price="kid36"></small></div>
+              <div class="stepper__ctrl">
+                <button type="button" data-step="-1" aria-label="Fewer kids ages 3 to 6">&minus;</button>
+                <output aria-live="polite">0</output>
+                <button type="button" data-step="1" aria-label="More kids ages 3 to 6">+</button>
+              </div>
+            </div>
+            <div class="stepper" data-key="kid79">
+              <div><b>Kids 7&ndash;9</b><small data-price="kid79"></small></div>
+              <div class="stepper__ctrl">
+                <button type="button" data-step="-1" aria-label="Fewer kids ages 7 to 9">&minus;</button>
+                <output aria-live="polite">0</output>
+                <button type="button" data-step="1" aria-label="More kids ages 7 to 9">+</button>
+              </div>
+            </div>
+            <div class="stepper" data-key="drink">
+              <div><b>Drinks</b><small data-price="drink"></small></div>
+              <div class="stepper__ctrl">
+                <button type="button" data-step="-1" aria-label="Fewer drinks">&minus;</button>
+                <output aria-live="polite">0</output>
+                <button type="button" data-step="1" aria-label="More drinks">+</button>
+              </div>
+            </div>
+          </div>
+
+          <fieldset class="tips">
+            <legend>Tip</legend>
+            <label><input type="radio" name="tip" value="0" checked><span>None</span></label>
+            <label><input type="radio" name="tip" value="10"><span>10%</span></label>
+            <label><input type="radio" name="tip" value="15"><span>15%</span></label>
+            <label><input type="radio" name="tip" value="18"><span>18%</span></label>
+            <label><input type="radio" name="tip" value="20"><span>20%</span></label>
+          </fieldset>
+
+          <ul class="calc__lines" id="calc-lines"></ul>
+
+          <div class="calc__total">
+            <span>Estimated total</span>
+            <strong id="calc-total">$0.00</strong>
+          </div>
+          <p class="calc__note">Before sales tax. Prices may change &mdash; call <a href="tel:+17652888788">(765) 288-8788</a> to confirm.</p>
+          <button type="button" class="calc__reset" id="calc-reset">Reset</button>
+        </form>
+      </div>
+    </section>
+
     <!-- GALLERY -->
     <section class="section" id="gallery">
       <div class="section__head">
@@ -209,6 +314,6 @@
     <img alt="">
   </dialog>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

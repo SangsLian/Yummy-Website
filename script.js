@@ -59,3 +59,63 @@ try {
 } catch (e) { /* hours badge is optional */ }
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// Meal calculator
+(() => {
+  const PRICES = {
+    lunch:  { adult: 12.99, kid36: 5.99, kid79: 7.99 },
+    dinner: { adult: 16.99, kid36: 7.99, kid79: 9.99 },
+    drink: 2.80,
+  };
+  const LABELS = { adult: 'Adult', kid36: 'Kid 3–6', kid79: 'Kid 7–9', drink: 'Drink' };
+  const form = document.getElementById('calc');
+  if (!form) return;
+  const counts = { adult: 2, kid36: 0, kid79: 0, drink: 0 };
+  const money = n => '$' + n.toFixed(2);
+  const totalEl = document.getElementById('calc-total');
+  const linesEl = document.getElementById('calc-lines');
+
+  const priceOf = (key, meal) => key === 'drink' ? PRICES.drink : PRICES[meal][key];
+
+  function render() {
+    const meal = form.meal.value;
+    const tipPct = Number(form.tip.value);
+    let subtotal = 0;
+    const lines = [];
+    for (const key of Object.keys(counts)) {
+      const step = form.querySelector(`.stepper[data-key="${key}"]`);
+      step.querySelector('output').textContent = counts[key];
+      step.querySelector('[data-step="-1"]').disabled = counts[key] === 0;
+      step.querySelector('[data-price]').textContent = money(priceOf(key, meal)) + ' each';
+      if (counts[key] > 0) {
+        const cost = Math.round(counts[key] * priceOf(key, meal) * 100) / 100;
+        subtotal += cost;
+        lines.push(`<li><span>${counts[key]} × ${LABELS[key]}${key === 'drink' ? '' : ' ' + meal}</span><span>${money(cost)}</span></li>`);
+      }
+    }
+    const tip = Math.round(subtotal * tipPct) / 100;
+    if (tipPct) lines.push(`<li><span>Tip (${tipPct}%)</span><span>${money(tip)}</span></li>`);
+    linesEl.innerHTML = lines.length ? lines.join('') : '<li class="empty">Add guests to see your total.</li>';
+    const total = money(subtotal + tip);
+    if (totalEl.textContent !== total) {
+      totalEl.textContent = total;
+      totalEl.classList.remove('bump'); void totalEl.offsetWidth; totalEl.classList.add('bump');
+    }
+  }
+
+  form.addEventListener('click', e => {
+    const btn = e.target.closest('[data-step]');
+    if (!btn) return;
+    const key = btn.closest('.stepper').dataset.key;
+    counts[key] = Math.max(0, Math.min(50, counts[key] + Number(btn.dataset.step)));
+    render();
+  });
+  form.addEventListener('change', render);
+  document.getElementById('calc-reset').addEventListener('click', () => {
+    Object.assign(counts, { adult: 2, kid36: 0, kid79: 0, drink: 0 });
+    form.meal.value = 'lunch';
+    form.tip.value = '0';
+    render();
+  });
+  render();
+})();
