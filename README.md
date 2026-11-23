@@ -29,5 +29,5 @@ You can add a custom domain (for example `yummygrillmuncie.com`) on the same Pag
 
 ## To update
 
-- **Hours:** look for the `TODO` comment in `index.html` and add the real opening hours.
+- **Hours:** edit the hours table in `index.html` and the `HOURS` list at the bottom of `script.js` (it powers the "Open now" badge).
 - **Prices:** add them to the "Visit us" section if you want them shown.
