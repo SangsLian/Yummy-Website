@@ -65,8 +65,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const PRICES = {
     lunch:  { adult: 12.99, kid36: 5.99, kid79: 7.99 },
     dinner: { adult: 16.99, kid36: 7.99, kid79: 9.99 },
-    drink: 2.80,
+    drink: 2.59,
   };
+  const TAX_RATE = 0.08;
   const LABELS = { adult: 'Adult', kid36: 'Kid 3–6', kid79: 'Kid 7–9', drink: 'Drink' };
   const form = document.getElementById('calc');
   if (!form) return;
@@ -93,10 +94,12 @@ document.getElementById('year').textContent = new Date().getFullYear();
         lines.push(`<li><span>${counts[key]} × ${LABELS[key]}${key === 'drink' ? '' : ' ' + meal}</span><span>${money(cost)}</span></li>`);
       }
     }
+    const tax = Math.round(subtotal * TAX_RATE * 100) / 100;
+    if (subtotal) lines.push(`<li><span>Sales tax (8%)</span><span>${money(tax)}</span></li>`);
     const tip = Math.round(subtotal * tipPct) / 100;
     if (tipPct) lines.push(`<li><span>Tip (${tipPct}%)</span><span>${money(tip)}</span></li>`);
     linesEl.innerHTML = lines.length ? lines.join('') : '<li class="empty">Add guests to see your total.</li>';
-    const total = money(subtotal + tip);
+    const total = money(subtotal + tax + tip);
     if (totalEl.textContent !== total) {
       totalEl.textContent = total;
       totalEl.classList.remove('bump'); void totalEl.offsetWidth; totalEl.classList.add('bump');
